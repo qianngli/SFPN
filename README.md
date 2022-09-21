@@ -3,7 +3,7 @@ This is an implementation of Symmetrical Feature Propagation Network for Hypersp
 
 Citation 
 --------
-**Please consider cite MCNet for hyperspectral image super-resolution if you find it helpful.**
+**Please consider cite our work if you find it helpful.**
 
 @article{Li2022symmetrical,
 
