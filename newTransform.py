@@ -270,7 +270,7 @@ class randomRotation(object):
                 img = copy.deepcopy(np.rot90(img, 1, [0, 1]))
             elif self.degrees == '-90': 
                 img = copy.deepcopy(np.rot90(img, -1, [0, 1]))            
-            
+            return img
         return img 
        
 class Resize_train(object):
