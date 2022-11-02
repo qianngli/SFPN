@@ -84,7 +84,7 @@ def generate_fine(c_result, hsi, hr_rgb, lr_hsi):
              
         #Unsupervised loss function
   
-        Loss = 0.75*L1Loss(D_HSI, lr_hsi) + L1Loss(D_MSI, hr_rgb) #+ 0.01*SAM(D_HSI[0,].cpu().detach().numpy(),lr_hsi[0,].cpu().detach().numpy())
+        Loss = 0.1*L1Loss(D_HSI, lr_hsi) + L1Loss(D_MSI, hr_rgb) 
 
         optimizer.zero_grad()
         Loss.backward()
@@ -166,22 +166,22 @@ if __name__ == "__main__":
         cSAMs.append(m_sam)     
         print("===The {}-th picture=====PSNR:{:.4f}=====SSIM:{:.5f}=====SAM:{:.4f}".format(k+1,  m_psnr, m_ssim, m_sam))  
 
-#        f_result = generate_fine(c_result, hsi, hr_rgb, lr_hsi)
-#        
-#        f_result[f_result>1.]=1
-#        f_result[f_result<0]=0    
-#
-#        m_psnr = PSNR(hsi, f_result)
-#        m_sam = SAM(hsi, f_result)
-#        m_ssim = SSIM(hsi, f_result)
-#            
-#        PSNRs.append(m_psnr)
-#        SSIMs.append(m_ssim)
-#        SAMs.append(m_sam)
-#                        
-#        print("===The {}-th picture=====PSNR:{:.4f}=====SSIM:{:.5f}=====SAM:{:.4f}".format(k+1,  m_psnr, m_ssim, m_sam))
+        f_result = generate_fine(c_result, hsi, hr_rgb, lr_hsi)
+        
+        f_result[f_result>1.]=1
+        f_result[f_result<0]=0    
+
+        m_psnr = PSNR(hsi, f_result)
+        m_sam = SAM(hsi, f_result)
+        m_ssim = SSIM(hsi, f_result)
+            
+        PSNRs.append(m_psnr)
+        SSIMs.append(m_ssim)
+        SAMs.append(m_sam)
+                        
+        print("===The {}-th picture=====PSNR:{:.4f}=====SSIM:{:.5f}=====SAM:{:.4f}".format(k+1,  m_psnr, m_ssim, m_sam))
 
     print("=====averPSNR:{:.3f}=====averSSIM:{:.4f}=====averSAM:{:.3f}".format(np.mean(cPSNRs), np.mean(cSSIMs), np.mean(cSAMs)))     	
-#    print("=====averPSNR:{:.3f}=====averSSIM:{:.4f}=====averSAM:{:.3f}".format(np.mean(PSNRs), np.mean(SSIMs), np.mean(SAMs))) 
+    print("=====averPSNR:{:.3f}=====averSSIM:{:.4f}=====averSAM:{:.3f}".format(np.mean(PSNRs), np.mean(SSIMs), np.mean(SAMs))) 
     print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                        
