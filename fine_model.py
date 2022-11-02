@@ -43,7 +43,6 @@ class FineNet(nn.Module):
         self.Conv1 = wn(nn.Conv2d(34, 192, 3, 1, 1))      
         self.Conv2 = wn(nn.Conv2d(192, 192, 3, 1, 1))        
         self.Conv3 = wn(nn.Conv2d(192, 31, 3, 1, 1))   
-#        self.Conv4 = nn.Conv2d(64, 31, 3, 1, 1)
         
         self.hsi = HSIchannel(opt)
 
@@ -52,8 +51,7 @@ class FineNet(nn.Module):
         out = torch.cat([x,y], 1)
         out = self.Conv1(out) 
         out = self.Conv2(self.ReLU(out))           
-        out = self.Conv3(self.ReLU(out))  
-#        out = self.Conv4(self.ReLU(out))                 
+        out = self.Conv3(self.ReLU(out))                
         out = out + x 
                   
         return  out, self.hsi(out) 
