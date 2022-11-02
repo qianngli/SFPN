@@ -133,7 +133,7 @@ if __name__ == "__main__":
     print('# parameters:', sum(param.numel() for param in coarse_model.parameters())) 
 
     # Buliding coarse_model     
-    model_path = 'result/CAVE_model_8_Kernel_2.pth'
+    model_path = 'result/CAVE_model_8.pth'
     #'result/CAVE_model_' + str(opt.upscale_factor) + '_' + opt.interpolation + '_' + str(opt.n_module)+ '.pth'  
     print("=> loading premodel")  
 
