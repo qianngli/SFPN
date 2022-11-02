@@ -180,22 +180,10 @@ def val(val_loader, model, epoch, optimizer, bestPSNR):
 
 
             hsi = hsi.detach().cpu().numpy()[0]
-       
             val_psnr += PSNR(data, hsi) 
+		
         average_psnr = val_psnr / len(val_loader)
-            
-        if average_psnr > bestPSNR:   
-            bestPSNR = average_psnr  
-            model_out_path =  "result/" + "{}_model_{}_{}_{}.pth".format(opt.datasetName, opt.upscale_factor, opt.interpolation, opt.n_module)
-            state = {"epoch": epoch , "model": model.state_dict(), "optimizer":optimizer.state_dict()}
-            if not os.path.exists('result'):
-                os.makedirs('result')     	
-            torch.save(state, model_out_path)        	   
-                    
-#            val_ssim += SSIM(data, hsi)
-#            val_sam += SAM(data, hsi)
-           
-    
+
         print("PSNR = {:.3f}   SSIM = {:.4F}    SAM = {:.3f}".format(val_psnr / len(val_loader), val_ssim / len(val_loader), val_sam / len(val_loader)))              
     
     return bestPSNR         	             
