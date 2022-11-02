@@ -86,8 +86,6 @@ def train(train_loader, optimizer, model, criterion, epoch):
     for iteration, batch in enumerate(train_loader, 1):
         hr_hsi, lr_hsi, hr_rgb = Variable(batch[0]), Variable(batch[1]), Variable(batch[2])
 
-#        lr_rgb = interpolate(hr_rgb, (lr_hsi.shape[2], lr_hsi.shape[3]), mode='bicubic', align_corners=False).type(torch.cuda.FloatTensor)
-                    	         
         index, values = patchIndex(hr_rgb.cuda(), opt.upscale_factor*opt.stride, opt.upscale_factor*opt.patchsize)
 
         SR = None
@@ -149,8 +147,6 @@ def val(val_loader, model, epoch, optimizer, bestPSNR):
             hsi, lr_hsi, hr_rgb, names = Variable(batch[0]), Variable(batch[1]), Variable(batch[2]), batch[3]
             data = np.zeros((hsi.shape[1], hsi.shape[2], hsi.shape[3])).astype(np.float32) 
 
-#            lr_rgb = interpolate(hr_rgb, (lr_hsi.shape[2], lr_hsi.shape[3]), mode='bicubic', align_corners=False).type(torch.cuda.FloatTensor)
-     	         
             index, values = patchIndex(hr_rgb.cuda(), opt.upscale_factor*opt.stride, opt.upscale_factor*opt.patchsize, newflag=True)
 
             SR = None
