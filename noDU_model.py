@@ -3,23 +3,6 @@ import torch.nn as nn
 import pdb
 from patch import calc_padding
 import torch.nn.functional as F                                        
-
-class downSP(nn.Sequential):
-    def __init__(self, wn, input_feats, output_feats, scale,  padding = 0, bias = True):
-
-        m = []
-        m.append(wn(nn.Conv2d(input_feats, output_feats, kernel_size=scale, stride=scale, padding=padding, bias=bias))) 
-                    
-        super(downSP, self).__init__(*m)   
-        
-        
-class upSP(nn.Sequential):
-    def __init__(self, wn, n_feats, scale, padding = 1, bias = True):
-
-        m = []
-        m.append(wn(nn.ConvTranspose2d(n_feats, n_feats, kernel_size=2+scale, stride=scale, padding=padding, bias=bias))) 
-                     
-        super(upSP, self).__init__(*m)
         
 class Unit(nn.Module):
     def __init__(self, wn, n_feats, kernel_size = 3, padding = 1, bias = True, act=nn.ReLU(inplace=True)):
@@ -99,43 +82,22 @@ class FASplit(nn.Module):
                
         self.unit_hsi = wn(nn.Conv2d(n_feats, n_feats, kernel_size, padding, bias))      
         self.unit_rgb = wn(nn.Conv2d(n_feats, n_feats, kernel_size, padding, bias))  
-
-#        self.share = wn(nn.Conv2d(n_feats, n_feats, kernel_size, padding, bias)) 
         self.aggregate = Aggregate(wn, n_feats, stride, patchsize)
-#        self.unit_hsi_1 = wn(nn.Conv2d(n_feats, n_feats, kernel_size, padding, bias))      
-#        self.unit_rgb_1 = wn(nn.Conv2d(n_feats, n_feats, kernel_size, padding, bias)) 
 
         self.reduce  = wn(nn.Conv2d(n_feats*2, n_feats, kernel_size=1, bias=True))                              
-
-#        self.downSP = downSP(wn, n_feats, n_feats, scale)      
-#        self.upSP = upSP(wn, n_feats, scale)
         self.n_feats = n_feats
                 
     def forward(self, hsi, rgb, corr):
 
-#        rgb_out = self.downSP(rgb)
         n_feats = int(self.n_feats//2)
         hsi_out = torch.cat([hsi[:,0:n_feats,:,:], rgb[:,0:n_feats,:,:]], 1)
         rgb_out = torch.cat([hsi[:,n_feats:self.n_feats,:,:], rgb[:,n_feats:self.n_feats,:,:]], 1)
-#    	
+	
         hsi_out = self.unit_hsi(hsi_out)
         rgb_out = self.unit_rgb(rgb_out)
-
-#        hsi_out = self.unit_hsi(hsi)
-#        rgb_out = self.unit_rgb(rgb)
-        
-#        rgb_out = self.downSP(rgb)
-
             	
         hsi_rgb_out = self.reduce(torch.cat([hsi_out, rgb_out], 1)) 
         hsi_out = self.aggregate(hsi_rgb_out, corr)
-
- 
-#        hsi_out = self.unit_hsi_1(hsi_out+z)
-#        rgb_out = self.unit_rgb_1(rgb_out+z)
-    	
-#        rgb_out = self.upSP(hsi_out)
-    	   
     	    	
         return hsi_out + hsi, hsi_out + rgb
     	
@@ -181,11 +143,6 @@ class inter_module(nn.Module):
                 
         
         self.fusion = FASplit(wn, n_feats, scale, stride, patchsize)
-#        elif type == 'Cross':
-#            self.fusion = FACross(wn, n_feats, scale)                
-#        elif type == '3D':            
-#            self.fusion = FA3D(wn, n_feats, scale) 
-       	        
     
     def forward(self, data):
 
