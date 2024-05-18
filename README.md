@@ -38,20 +38,20 @@ In the coarse stage, we only turn to the neighboring bands and ignore the relati
   
 </div>
 
-*Overview of the flowchart in the coarse stage. Only three bands (current band $Z_i$ and its two adjacent bands $Z_{i−1}$ , $Z_{i+1}$ ) and RGB image are fed into CoarseNet to produce the initial super-resolved band $I_{i}^{CR}$. In this process, feature content $C_{i−1}$ and spectral content $S_{i−1}$ are injected into CoarseNet, which encourages the model to fuse complementary information, so as to improve the ability of feature representation.*
+*Fig. 2. Overview of the flowchart in the coarse stage. Only three bands (current band $Z_i$ and its two adjacent bands $Z_{i−1}$ , $Z_{i+1}$ ) and RGB image are fed into CoarseNet to produce the initial super-resolved band $I_{i}^{CR}$. In this process, feature content $C_{i−1}$ and spectral content $S_{i−1}$ are injected into CoarseNet, which encourages the model to fuse complementary information, so as to improve the ability of feature representation.*
 
 #### Pseudocode  
-*Training Steps for Coarse Stage*
+*Training Steps for Coarse Stage*  
 
 > **Input:** HR dataset $\mathcal{D}$ and scale factor $s$  
 > **Output:** Coarse model parameter $\theta_C$  
 > Randomly initialize coarse model parameter $\theta ;  
 > **while** not *down* **do**  
-> &ensp;&ensp; Sample a batch of images {*X*} from dataset $\mathcal{D} ;
-> &ensp;&ensp; Generate {*X, Z*} by degradation, and obtain corresponding HR image *Y* using 1;
-> &ensp;&ensp; Set $i = 1$ ;
+> &ensp;&ensp; Sample a batch of images {*X*} from dataset $\mathcal{D} ;  
+> &ensp;&ensp; Generate {*X, Z*} by degradation, and obtain corresponding HR image *Y* using 1;  
+> &ensp;&ensp; Set $i = 1$ ;  
 > &ensp;&ensp; **for** $i≤L$ **do**  
-> &ensp;&ensp;&ensp;&ensp; Evaluate $\mathcal{L}_C$ by 14 ;    
+> &ensp;&ensp;&ensp;&ensp; Evaluate $\mathcal{L}_C$ by 14 ;  
 > &ensp;&ensp;&ensp;&ensp; Update $\theta according to $\mathcal{L}_C ;  
 > &ensp;&ensp;&ensp;&ensp; $i \gets i+1$ ;  
 > &ensp;&ensp; **end**  
@@ -65,7 +65,7 @@ In the coarse stage, we only turn to the neighboring bands and ignore the relati
   
 </div>
 
-*Fig. 4. Structure of the proposed CoarseNet.*
+*Fig. 3. Structure of the proposed CoarseNet.*
 
 #### Separation-and-Aggregation Unit
 
@@ -75,7 +75,7 @@ In the coarse stage, we only turn to the neighboring bands and ignore the relati
   
 </div>
 
-*Fig. 5. Separation-and-aggregation unit (SAU)*
+*Fig. 4. Separation-and-aggregation unit (SAU)*
 
 ### Back-Projection Refinement Network
 In the coarse stage, three bands are used to perform the SR task. The model only focuses on the adjacent bands and ignores the relatively distant bands. In addition, CoarseNet only generates the general structure for LR HSI; however, it cannot effectively describe image-specific details, such as LR HSI with unknown degeneration. To capture more spectral knowledge and learn image-specific details, these coarse super-resolved bands $I_{i}^{CR}\in \mathbb{R}^{W\times H},i=1,2,…,L$ are combined as $I^{CR}\in \mathbb{R}^{W\times H\times L}$. Subsequently, we build the network with auxiliary RGB image Y and initial results $I^{CR}$. Concretely, a back-projection refinement network is embedded at the end of the coarse stage, whose structure is exhibited in Table I. To reduce the possible mapping functions, we believe that the content between LR HSI I and degraded super-resolved $I^{CR}$ should be as consistent as possible.  
@@ -91,11 +91,11 @@ In the coarse stage, three bands are used to perform the SR task. The model only
 > $I^{CR} = \mathcal{C}(s, Y, G(i); \theta_C)$ ;  
 > Randomly initialize fine model parameter $\sigma$, and set $q = 1$ ;  
 > **for** $q \leq Q$ **do**  
-> &ensp;&ensp; Evaluate $\mathcal{L}_\mathcal{F}$ by 17 ;  
-> &ensp;&ensp; Update $\sigma$ according to $\mathcal{L}_\mathcal{F}$ ;  
+> &ensp;&ensp; Evaluate $\mathcal{L}_ \mathcal{F}$ by 17 ;  
+> &ensp;&ensp; Update $\sigma$ according to $\mathcal{L}_ \mathcal{F}$ ;  
 > &ensp;&ensp; $q \gets q + 1$ ;  
 > **end**  
-> **return** $I^{SR} = \mathcal{F}(s, Y, I^{CR}; \sigma_\mathcal{F})$
+> **return** $I^{SR} = \mathcal{F}(s, Y, I^{CR}; \sigma_ \mathcal{F})$  
 
 ## Dependencies  
 **PyTorch, NVIDIA GeForce GTX 3090 GPU.**
