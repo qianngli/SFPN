@@ -38,7 +38,7 @@ In the coarse stage, we only turn to the neighboring bands and ignore the relati
   
 </div>
 
-*Fig. 2. Overview of the flowchart in the coarse stage. Only three bands (current band $Z_i$ and its two adjacent bands $Z_{i−1}$ , $Z_{i+1}$ ) and RGB image are fed into CoarseNet to produce the initial super-resolved band $I_{i}^{CR}$. In this process, feature content $C_{i−1}$ and spectral content $S_{i−1}$ are injected into CoarseNet, which encourages the model to fuse complementary information, so as to improve the ability of feature representation.*
+*Fig. 2. Overview of the flowchart in the coarse stage. Only three bands (current band* $Z_i$ *and its two adjacent bands* $Z_{i−1}$*,* $Z_{i+1}$ *) *and RGB image are fed into CoarseNet to produce the initial super-resolved band* $I_{i}^{CR}$. *In this process, feature content* $C_{i−1}$ *and spectral content* $S_{i−1}$ *are injected into CoarseNet, which encourages the model to fuse complementary information, so as to improve the ability of feature representation.*
 
 #### Pseudocode  
 *Training Steps for Coarse Stage*  
@@ -52,7 +52,7 @@ In the coarse stage, we only turn to the neighboring bands and ignore the relati
 > &ensp;&ensp; Set $i = 1$ ;  
 > &ensp;&ensp; **for** $i≤L$ **do**  
 > &ensp;&ensp;&ensp;&ensp; Evaluate $\mathcal{L}_C$ by 14 ;  
-> &ensp;&ensp;&ensp;&ensp; Update $\theta according to $\mathcal{L}_C ;  
+> &ensp;&ensp;&ensp;&ensp; Update $\theta according to $\mathcal{L}_C$ ;  
 > &ensp;&ensp;&ensp;&ensp; $i \gets i+1$ ;  
 > &ensp;&ensp; **end**  
 > **end** 
