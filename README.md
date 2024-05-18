@@ -38,16 +38,16 @@ In the coarse stage, we only turn to the neighboring bands and ignore the relati
   
 </div>
 
-*Fig. 2. Overview of the flowchart in the coarse stage. Only three bands (current band* $Z_i$ *and its two adjacent bands* $Z_{i−1}$*,* $Z_{i+1}$ *) *and RGB image are fed into CoarseNet to produce the initial super-resolved band* $I_{i}^{CR}$. *In this process, feature content* $C_{i−1}$ *and spectral content* $S_{i−1}$ *are injected into CoarseNet, which encourages the model to fuse complementary information, so as to improve the ability of feature representation.*
+*Fig. 2. Overview of the flowchart in the coarse stage. Only three bands (current band* $Z_i$ *and its two adjacent bands* $Z_{i−1}$*,* $Z_{i+1}$ *) and RGB image are fed into CoarseNet to produce the initial super-resolved band* $I_{i}^{CR}$. *In this process, feature content* $C_{i−1}$ *and spectral content* $S_{i−1}$ *are injected into CoarseNet, which encourages the model to fuse complementary information, so as to improve the ability of feature representation.*
 
 #### Pseudocode  
 *Training Steps for Coarse Stage*  
 
 > **Input:** HR dataset $\mathcal{D}$ and scale factor $s$  
 > **Output:** Coarse model parameter $\theta_C$  
-> Randomly initialize coarse model parameter $\theta ;  
+> Randomly initialize coarse model parameter $\theta$ ;  
 > **while** not *down* **do**  
-> &ensp;&ensp; Sample a batch of images {*X*} from dataset $\mathcal{D} ;  
+> &ensp;&ensp; Sample a batch of images {*X*} from dataset $\mathcal{D}$ ;  
 > &ensp;&ensp; Generate {*X, Z*} by degradation, and obtain corresponding HR image *Y* using 1;  
 > &ensp;&ensp; Set $i = 1$ ;  
 > &ensp;&ensp; **for** $i≤L$ **do**  
