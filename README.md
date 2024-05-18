@@ -52,7 +52,7 @@ In the coarse stage, we only turn to the neighboring bands and ignore the relati
 > &ensp;&ensp; Set $i = 1$ ;  
 > &ensp;&ensp; **for** $i≤L$ **do**  
 > &ensp;&ensp;&ensp;&ensp; Evaluate $\mathcal{L}_C$ by 14 ;  
-> &ensp;&ensp;&ensp;&ensp; Update $\theta according to $\mathcal{L}_C$ ;  
+> &ensp;&ensp;&ensp;&ensp; Update $\theta$ according to $\mathcal{L}_C$ ;  
 > &ensp;&ensp;&ensp;&ensp; $i \gets i+1$ ;  
 > &ensp;&ensp; **end**  
 > **end** 
@@ -123,16 +123,16 @@ Four public datasets, i.e., [CAVE](https://www1.cs.columbia.edu/CAVE/databases/m
         git clone https://github.com/qianngli/SFPN.git
         cd SFPN
 
-1. Install PyTorch and dependencies from [http://pytorch.org](http://pytorch.org).  
+1. Install PyTorch and dependencies from [http://pytorch.org](http://pytorch.org).
+1. You could download the pre-trained model from [HERE](https://github.com/qianngli/SFPN/tree/master/pre_model).
 1. Remember to change the following path to yours：
-   - `SFPN/train.py` line 36, 39.
-   - `SFPN/fine.py` line 71, 72.
+   - `SFPN/fine.py` line 124, 136.
+   - `SFPN/noDU_Train.py` line 35, 39.
 
 ### Main parameter settings
 #### model $\mathcal{C}$
 - With respect to experimental setup, we select the size of convolution kernels to be **3 × 3**, except for the kernels mentioned above. Moreover, the number of these kernels is set to **64**.
 
-        parser.add_argument('--kernel_size', type=int, default=3, help='number of module')
         parser.add_argument('--n_feats', type=int, default=64, help='number of feature maps')
    
 - Following previous works, we fix the learning rate at **10^(−4)**, and its value is halved every **30** epoch.
@@ -141,13 +141,9 @@ Four public datasets, i.e., [CAVE](https://www1.cs.columbia.edu/CAVE/databases/m
         parser.add_argument("--step", type=int, default=30, help="Sets the learning rate to the initial LR decayed by momentum every n epochs")
 
 - To optimize our model, the **ADAM** optimizer with **β1 = 0.9** and **β2 = 0.99** is chosen.
-- Moreover, we set **2α = β** in our article.
 
 #### model $\mathcal{F}$
-we also use the ADAM optimizer to learn parameters. The learning rate is fixed as 5−5 in our study. 
-
-        parser.add_argument("--lr", type=int, default=1e-4, help="lerning rate")
-        parser.add_argument("--step", type=int, default=30, help="Sets the learning rate to the initial LR decayed by momentum every n epochs")
+we also use the ADAM optimizer to learn parameters. The learning rate is fixed as 5^−5 in our study. 
 
 ### Train & Test
 You can train or test directly from the command line as such:  
@@ -171,7 +167,7 @@ You can train or test directly from the command line as such:
   
 </div>
     
-*Fig. 10. Visual comparison of spectral distortion by selecting two pixels.*  
+*Fig. 5. Visual comparison of spectral distortion by selecting two pixels.*  
 
 <div align="center">   
   
@@ -179,11 +175,11 @@ You can train or test directly from the command line as such:
   
 </div>
     
-*Fig. 11. Visual comparison in the spatial domain for three images. First to three lines represent the visual results of the 20th band, 20th band, and 80th band, respectively.*  
+*Fig. 6. Visual comparison in the spatial domain for three images. First to three lines represent the visual results of the 20th band, 20th band, and 80th band, respectively.*  
 
 ### Application on Real Hyperspectral Image
 We apply the proposed method to a real sample located at Roman Colosseum to demonstrate its applicability.Since the HR image for this dataset is not available, we first randomly crop patch with size 36 × 36 × 8 from HSI and acquire the corresponding RGB patch with size 144 × 144 × 3. Then, the HSI patch and RGB patch are downsampled into the size 9×9× 8 and 36 × 36 × 3, respectively. Finally, the downsampled patches and original patches are exploited as training pairs. 
-To examine the applicability, three existing models are adopted. Since there is no spectral response function, we take the above similar approach and show only partial results of the methods. Fig. 12 exhibits the super-resolved results for the existing methods. We find that some images appear smoothing or ringing results. However, the proposed CoarseNet recovers clear textures. It reveals our work can effectively tackle images in real scenes and has certain practicability.
+To examine the applicability, three existing models are adopted. Since there is no spectral response function, we take the above similar approach and show only partial results of the methods. Fig. 7 exhibits the super-resolved results for the existing methods. We find that some images appear smoothing or ringing results. However, the proposed CoarseNet recovers clear textures. It reveals our work can effectively tackle images in real scenes and has certain practicability.
 
 <div align="center">
   
@@ -191,7 +187,7 @@ To examine the applicability, three existing models are adopted. Since there is 
   
 </div>
 
-*Fig. 12. Visual comparison on the real HSI dataset. We choose the 2-3-5 bands after SR to synthesize the pseudocolor image.*  
+*Fig. 7. Visual comparison on the real HSI dataset. We choose the 2-3-5 bands after SR to synthesize the pseudocolor image.*  
 
 --------
 If you has any questions, please send e-mail to liqmges@gmail.com.
